@@ -5,7 +5,6 @@ import { ForgotPasswordPage } from "../pages/auth/forgot-password/page";
 import { AuthLayout } from "../pages/auth/layout";
 import { LoginPage } from "../pages/auth/login/page";
 import { RegisterPage } from "../pages/auth/register/page";
-import { SSOPage } from "../pages/auth/sso/page";
 import { ResetPasswordPage } from "../pages/auth/reset-password/page";
 import { VerifyEmailPage } from "../pages/auth/verify-email/page";
 import { VerifyOtpPage } from "../pages/auth/verify-otp/page";
@@ -60,7 +59,6 @@ export const routes = createRoutesFromElements(
 
         {/* OAuth Callback */}
         <Route path="callback" loader={authLoader} />
-        <Route path="api/callback" element={<SSOPage />} />
       </Route>
 
       <Route index element={<Navigate replace to="/auth/login" />} />
