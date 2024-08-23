@@ -32,18 +32,6 @@ export const SocialAuth = () => {
           </a>
         </Button>
       )}
-      {providers.includes("eas") && (
-        <Button
-          asChild
-          size="lg"
-          className="w-full !bg-[#4285F4] !text-white hover:!bg-[#4285F4]/80"
-        >
-          <a href="/api/auth/eas">
-            <Keyhole className="mr-3 size-4" />
-            {t`Eas`}
-          </a>
-        </Button>
-      )}
     </div>
   );
 };

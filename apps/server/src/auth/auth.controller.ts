@@ -39,7 +39,6 @@ import { RefreshGuard } from "./guards/refresh.guard";
 import { TwoFactorGuard } from "./guards/two-factor.guard";
 import { getCookieOptions } from "./utils/cookie";
 import { payloadSchema } from "./utils/payload";
-import { EasGuard } from "./guards/eas.guard";
 
 @ApiTags("Authentication")
 @Controller("auth")
@@ -101,6 +100,15 @@ export class AuthController {
 
     return this.handleAuthenticationResponse(user, response);
   }
+  @Post("easRegister")
+  async easRegister(
+    @Body() registerDto: RegisterDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const user = await this.authService.easRegister(registerDto);
+
+    return this.handleAuthenticationResponse(user, response);
+  }
 
   @Post("login")
   @UseGuards(LocalGuard)
@@ -148,12 +156,6 @@ export class AuthController {
     return this.handleAuthenticationResponse(user, response, false, true);
   }
 
-  @ApiTags("OAuth", "Eas")
-  @Get("eas/callback")
-  @UseGuards(EasGuard)
-  async easCallback(@User() user: UserWithSecrets, @Res({ passthrough: true }) response: Response) {
-    return this.handleAuthenticationResponse(user, response, false, true);
-  }
   @Post("refresh")
   @UseGuards(RefreshGuard)
   async refresh(@User() user: UserWithSecrets, @Res({ passthrough: true }) response: Response) {

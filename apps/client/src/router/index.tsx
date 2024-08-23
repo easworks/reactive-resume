@@ -5,6 +5,7 @@ import { ForgotPasswordPage } from "../pages/auth/forgot-password/page";
 import { AuthLayout } from "../pages/auth/layout";
 import { LoginPage } from "../pages/auth/login/page";
 import { RegisterPage } from "../pages/auth/register/page";
+import { EasRegisterPage } from "../pages/auth/easlogin/page";
 import { ResetPasswordPage } from "../pages/auth/reset-password/page";
 import { VerifyEmailPage } from "../pages/auth/verify-email/page";
 import { VerifyOtpPage } from "../pages/auth/verify-otp/page";
@@ -38,6 +39,7 @@ export const routes = createRoutesFromElements(
         <Route element={<GuestGuard />}>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="easRegister" element={<EasRegisterPage />} />
         </Route>
 
         {/* Password Recovery */}

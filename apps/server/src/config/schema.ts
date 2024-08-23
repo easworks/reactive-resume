@@ -72,10 +72,6 @@ export const configSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   GOOGLE_CALLBACK_URL: z.string().url().optional(),
-  // Eas (OAuth)
-  EAS_CLIENT_ID: z.string().optional(),
-  EAS_CLIENT_SECRET: z.string().optional(),
-  EAS_CALLBACK_URL: z.string().url().optional(),
 });
 
 export type Config = z.infer<typeof configSchema>;

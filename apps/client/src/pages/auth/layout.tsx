@@ -47,7 +47,7 @@ export const AuthLayout = () => {
                 {t({
                   message: "or continue with",
                   context:
-                    "The user can either login with email/password, or continue with GitHub or Google or EAS.",
+                    "The user can either login with email/password, or continue with GitHub or Google.",
                 })}
               </span>
               <hr className="flex-1" />

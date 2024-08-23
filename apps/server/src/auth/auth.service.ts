@@ -11,7 +11,7 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { AuthProvidersDto, LoginDto, RegisterDto, UserWithSecrets } from "@reactive-resume/dto";
-import { ErrorMessage } from "@reactive-resume/utils";
+import { ErrorMessage, processUsername } from "@reactive-resume/utils";
 import * as bcryptjs from "bcryptjs";
 import { authenticator } from "otplib";
 
@@ -19,6 +19,7 @@ import { Config } from "../config/schema";
 import { MailService } from "../mail/mail.service";
 import { UserService } from "../user/user.service";
 import { Payload } from "./utils/payload";
+import { log } from "node:console";
 
 @Injectable()
 export class AuthService {
@@ -97,7 +98,32 @@ export class AuthService {
 
     if (payload.isTwoFactorAuth) return user;
   }
+  async easRegister(registerDto: RegisterDto) {
+    try {
+      console.log("registerDto", registerDto);
 
+      const userT = await this.userService.findOneByIdentifier(registerDto.email);
+      console.log("userT", userT);
+      if (!userT) throw new Error("User not found.");
+      return userT as UserWithSecrets;
+    } catch (ex) {
+      console.log("userT", ex);
+      try {
+        const userT = await this.userService.create({
+          email: registerDto.email,
+          locale: "en-US",
+          name: registerDto.name,
+          provider: "email",
+          emailVerified: true, // auto-verify emails
+          username: processUsername(registerDto.email.split("@")[0]),
+          secrets: { create: {} },
+        });
+        return userT as UserWithSecrets;
+      } catch {
+        throw new BadRequestException(ErrorMessage.UserAlreadyExists);
+      }
+    }
+  }
   async register(registerDto: RegisterDto) {
     const hashedPassword = await this.hash(registerDto.password);
 
@@ -198,7 +224,6 @@ export class AuthService {
     ) {
       providers.push("google");
     }
-    providers.push("eas");
     return providers;
   }
 

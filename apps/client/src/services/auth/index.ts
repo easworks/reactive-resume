@@ -2,6 +2,7 @@ export * from "./login";
 export * from "./logout";
 export * from "./refresh";
 export * from "./register";
+export * from "./easRegister";
 export * from "./update-password";
 
 // Email Verification
